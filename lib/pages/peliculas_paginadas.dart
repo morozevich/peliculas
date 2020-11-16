@@ -11,6 +11,7 @@ class PeliculasPaginadas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    peliculasProvider.getPopulares();
     return Container(
       width: double.infinity,
       child: Column(
@@ -21,8 +22,8 @@ class PeliculasPaginadas extends StatelessWidget {
             child: Text('Populares...'),
           ),
           SizedBox(height: 8),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return CircularProgressIndicator();
