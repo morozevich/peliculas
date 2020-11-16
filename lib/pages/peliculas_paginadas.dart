@@ -28,7 +28,10 @@ class PeliculasPaginadas extends StatelessWidget {
               if (!snapshot.hasData) {
                 return CircularProgressIndicator();
               }
-              return MovieHorizontal(peliculas: snapshot.data);
+              return MovieHorizontal(
+                peliculas: snapshot.data,
+                siguientePagina: peliculasProvider.getPopulares,
+              );
             },
           )
         ],
