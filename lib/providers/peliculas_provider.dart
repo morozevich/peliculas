@@ -12,6 +12,7 @@ class PeliculasProvider {
   int _popularesPage = 0;
   List<Pelicula> peliculas = List();
   final _popularesStreamController = StreamController<List<Pelicula>>.broadcast();
+  bool isFetchingPopulares = false;
 
   Function(List<Pelicula>) get popularesSink => _popularesStreamController.sink.add;
   Stream<List<Pelicula>> get popularesStream => _popularesStreamController.stream;
@@ -32,6 +33,11 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    if (isFetchingPopulares) {
+      return [];
+    }
+    print('siguiente...');
+    isFetchingPopulares = true;
     _popularesPage++;
     final url = Uri.https(_url, '3/movie/popular', {
       'api_key': _apiKey,
@@ -41,6 +47,7 @@ class PeliculasProvider {
     final resp = await http.get(url);
     final dataMap = json.decode(resp.body);
     final _resp = Peliculas.fromJsonList(dataMap['results']);
+    isFetchingPopulares = false;
     peliculas.addAll(_resp.items);
     popularesSink(peliculas);
     return _resp.items;
