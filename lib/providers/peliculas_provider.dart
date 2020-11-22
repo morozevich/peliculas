@@ -36,7 +36,6 @@ class PeliculasProvider {
     if (isFetchingPopulares) {
       return [];
     }
-    print('siguiente...');
     isFetchingPopulares = true;
     _popularesPage++;
     final url = Uri.https(_url, '3/movie/popular', {
